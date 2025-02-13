@@ -38,6 +38,8 @@ for ax, ((dut_pn, id), group_data) in zip(axes, grouped):
     # Further group by 'dut_sn' and 'timestamp' for separate lines
     sub_groups = group_data.groupby(['dut_sn', 'timestamp'])
     
+    print(len(sub_groups))
+    
     for (dut_sn, timestamp), sub_data in sub_groups:
        
         # Skip lines where the seq is out of bounce
@@ -69,10 +71,6 @@ for ax, ((dut_pn, id), group_data) in zip(axes, grouped):
     ax.set_ylabel('Watts')
     ax.grid(True)
     # ax.legend(fontsize=5)
-
-# Hide any unused subplots
-for i in range(len(grouped), len(axes)):
-    fig.delaxes(axes[i])
 
 plt.tight_layout()  # Adjust layout to prevent overlapping
 plt.show()
