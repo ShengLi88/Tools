@@ -47,13 +47,13 @@ def export_to_csv(data, columns, filename='query_results.csv'):
 # """
 
 query3 = """
-SELECT ms.timestamp, msv.id, ms.dut_sn, ms.dut_pn, ms.id, msv.value
+SELECT ms.timestamp, msv.id AS seq, ms.dut_sn, ms.dut_pn, ms.id, msv.value
 FROM [BronzeRawDataWarehouse].[dbo].[measurements_series] ms
 INNER HASH JOIN [BronzeRawDataWarehouse].[dbo].[measurements_series_values] msv
     ON ms.timestamp = msv.measurement_timestamp
     AND ms.dut_sn = msv.dut_sn
 WHERE (ms.id = 'HeatingSeriesPowerCreatedTestSystem' OR ms.id = 'HeatingSeriesPowerConsumedTestSystem')
-    AND ms.timestamp > '2025-02-11'
+    AND ms.timestamp > '2024-12-01'
 ORDER BY ms.timestamp ASC, msv.id ASC
 OPTION (HASH JOIN)
 """
