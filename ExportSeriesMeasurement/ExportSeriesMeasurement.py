@@ -33,18 +33,18 @@ def export_to_csv(data, columns, filename='query_results.csv'):
 # ORDER BY ms.timestamp DESC
 # """
 
-# query2 = """
-# SELECT msv.measurement_timestamp, msv.id, ms.dut_sn, ms.dut_pn, ms.id, msv.value
-# FROM [BronzeRawDataWarehouse].[dbo].[measurements_series] ms
-# INNER HASH JOIN [BronzeRawDataWarehouse].[dbo].[measurements_series_values] msv
-#     ON ms.timestamp = msv.measurement_timestamp
-#     AND ms.dut_sn = msv.dut_sn
-#     AND (ms.id = 'HeatingSeriesPowerCreatedTestSystem' OR ms.id = 'HeatingSeriesPowerConsumedTestSystem')
-# WHERE ms.timestamp > '2025-02-11'
-#     AND ms.dut_sn = 'SN-275J-KM9Y'
-# ORDER BY ms.timestamp ASC, msv.id ASC
-# OPTION (HASH JOIN)
-# """
+query2 = """
+SELECT ms.timestamp, msv.id AS seq, ms.dut_sn, ms.dut_pn, ms.id, msv.value
+FROM [BronzeRawDataWarehouse].[dbo].[measurements_series] ms
+INNER HASH JOIN [BronzeRawDataWarehouse].[dbo].[measurements_series_values] msv
+    ON ms.timestamp = msv.measurement_timestamp
+    AND ms.dut_sn = msv.dut_sn
+WHERE (ms.id = 'HeatingSeriesPowerCreatedTestSystem' OR ms.id = 'HeatingSeriesPowerConsumedTestSystem')
+    AND ms.timestamp > '2025-01-01'
+    AND ms.dut_pn = '7593-9908-1302'
+ORDER BY ms.timestamp ASC, msv.id ASC
+OPTION (HASH JOIN)
+"""
 
 query3 = """
 SELECT ms.timestamp, msv.id AS seq, ms.dut_sn, ms.dut_pn, ms.id, msv.value
@@ -53,7 +53,7 @@ INNER HASH JOIN [BronzeRawDataWarehouse].[dbo].[measurements_series_values] msv
     ON ms.timestamp = msv.measurement_timestamp
     AND ms.dut_sn = msv.dut_sn
 WHERE (ms.id = 'HeatingSeriesPowerCreatedTestSystem' OR ms.id = 'HeatingSeriesPowerConsumedTestSystem')
-    AND ms.timestamp > '2024-12-01'
+    AND ms.timestamp > '2025-02-01'
 ORDER BY ms.timestamp ASC, msv.id ASC
 OPTION (HASH JOIN)
 """
@@ -61,7 +61,7 @@ OPTION (HASH JOIN)
 # Execute Query and Export Results
 connection = connect_to_db()
 cursor = connection.cursor()
-cursor.execute(query3)
+cursor.execute(query2)
 rows = cursor.fetchall()
 columns = [column[0] for column in cursor.description]
 export_to_csv(rows, columns)
