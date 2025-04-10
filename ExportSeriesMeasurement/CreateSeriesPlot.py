@@ -17,6 +17,10 @@ expected_columns = {'timestamp', 'seq', 'dut_sn', 'dut_pn', 'id', 'value'}
 if not expected_columns.issubset(df.columns):
     raise ValueError(f"CSV file is missing one or more expected columns: {expected_columns}")
 
+# Include specific dut_sn values
+only_dut_sn = ['SN-LY4P-R9JY', 'SN-JYV2-K5LY', 'SN-6YXP-RR8Y', 'SN-N70N-8K27', 'SN-LY3E-4PVY', 'SN-N70N-8K27', 'SN-N70N-0M27', 'SN-6YXP-RR8Y', 'SN-PYP5-5V37']
+df = df[df['dut_sn'].isin(only_dut_sn)]
+
 # Exclude specific dut_pn values
 excluded_dut_pn = ['1281-0277-2106', '1281-0277-2105', '3814-6535-1704']
 df = df[~df['dut_pn'].isin(excluded_dut_pn)]
@@ -42,12 +46,13 @@ for ax, ((dut_pn, id), group_data) in zip(axes, grouped):
     
     for (dut_sn, timestamp), sub_data in sub_groups:
        
-        # Skip lines where the seq is out of bounce
+        # Adjust the plot range depending on the DUT PN
         if '1281-0277-21' in sub_data['dut_pn']:
             seq_top_limit = 400
         else:
             seq_top_limit = 350
         
+        # Skip lines where the seq is out of bounce
         if sub_data['seq'].max() < 250 or sub_data['seq'].max() > seq_top_limit:
             continue
 
@@ -70,7 +75,7 @@ for ax, ((dut_pn, id), group_data) in zip(axes, grouped):
     ax.set_xlabel('Sequence')
     ax.set_ylabel('Watts')
     ax.grid(True)
-    # ax.legend(fontsize=5)
+    ax.legend(fontsize=5)
 
 plt.tight_layout()  # Adjust layout to prevent overlapping
 plt.show()

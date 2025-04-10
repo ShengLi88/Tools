@@ -26,12 +26,12 @@ def export_to_csv(data, columns, filename='query_results.csv'):
     print(f"Results exported to {filename}")
 
 # SQL Queries
-# query1 = """
-# SELECT *
-# FROM [BronzeRawDataWarehouse].[dbo].[measurements_series] ms
-# WHERE ms.timestamp > '2025-02-11'
-# ORDER BY ms.timestamp DESC
-# """
+query1 = """
+SELECT *
+FROM [BronzeRawDataWarehouse].[dbo].[measurements_series] ms
+WHERE ms.timestamp > '2025-04-09'
+ORDER BY ms.timestamp DESC
+"""
 
 query2 = """
 SELECT ms.timestamp, msv.id AS seq, ms.dut_sn, ms.dut_pn, ms.id, msv.value
@@ -61,7 +61,7 @@ OPTION (HASH JOIN)
 # Execute Query and Export Results
 connection = connect_to_db()
 cursor = connection.cursor()
-cursor.execute(query2)
+cursor.execute(query1)
 rows = cursor.fetchall()
 columns = [column[0] for column in cursor.description]
 export_to_csv(rows, columns)
