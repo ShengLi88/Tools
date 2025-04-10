@@ -40,7 +40,7 @@ INNER HASH JOIN [BronzeRawDataWarehouse].[dbo].[measurements_series_values] msv
     ON ms.timestamp = msv.measurement_timestamp
     AND ms.dut_sn = msv.dut_sn
 WHERE (ms.id = 'HeatingSeriesPowerCreatedTestSystem' OR ms.id = 'HeatingSeriesPowerConsumedTestSystem')
-    AND ms.timestamp > '2025-01-01'
+    AND ms.timestamp > '2025-04-09'
     AND ms.dut_pn = '7593-9908-1302'
 ORDER BY ms.timestamp ASC, msv.id ASC
 OPTION (HASH JOIN)
@@ -53,7 +53,7 @@ INNER HASH JOIN [BronzeRawDataWarehouse].[dbo].[measurements_series_values] msv
     ON ms.timestamp = msv.measurement_timestamp
     AND ms.dut_sn = msv.dut_sn
 WHERE (ms.id = 'HeatingSeriesPowerCreatedTestSystem' OR ms.id = 'HeatingSeriesPowerConsumedTestSystem')
-    AND ms.timestamp > '2025-02-01'
+    AND ms.timestamp > '2025-03-09'
 ORDER BY ms.timestamp ASC, msv.id ASC
 OPTION (HASH JOIN)
 """
@@ -61,7 +61,7 @@ OPTION (HASH JOIN)
 # Execute Query and Export Results
 connection = connect_to_db()
 cursor = connection.cursor()
-cursor.execute(query1)
+cursor.execute(query3)
 rows = cursor.fetchall()
 columns = [column[0] for column in cursor.description]
 export_to_csv(rows, columns)

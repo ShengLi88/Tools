@@ -18,12 +18,12 @@ if not expected_columns.issubset(df.columns):
     raise ValueError(f"CSV file is missing one or more expected columns: {expected_columns}")
 
 # Include specific dut_sn values
-only_dut_sn = ['SN-LY4P-R9JY', 'SN-JYV2-K5LY', 'SN-6YXP-RR8Y', 'SN-N70N-8K27', 'SN-LY3E-4PVY', 'SN-N70N-8K27', 'SN-N70N-0M27', 'SN-6YXP-RR8Y', 'SN-PYP5-5V37']
-df = df[df['dut_sn'].isin(only_dut_sn)]
+# only_dut_sn = ['SN-LY4P-R9JY', 'SN-JYV2-K5LY', 'SN-6YXP-RR8Y', 'SN-N70N-8K27', 'SN-LY3E-4PVY', 'SN-N70N-8K27', 'SN-N70N-0M27', 'SN-6YXP-RR8Y', 'SN-PYP5-5V37']
+# df = df[df['dut_sn'].isin(only_dut_sn)]
 
 # Exclude specific dut_pn values
-excluded_dut_pn = ['1281-0277-2106', '1281-0277-2105', '3814-6535-1704']
-df = df[~df['dut_pn'].isin(excluded_dut_pn)]
+# excluded_dut_pn = ['1281-0277-2106', '1281-0277-2105', '3814-6535-1704']
+# df = df[~df['dut_pn'].isin(excluded_dut_pn)]
 
 # Group by 'dut_pn' and 'id' for subplots
 grouped = df.groupby(['dut_pn', 'id'])
